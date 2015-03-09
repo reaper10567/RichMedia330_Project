@@ -60,7 +60,7 @@ app.waterFountains = {
 			
 		for(var i = 0; i < this.fountains.length; i++){
 			//console.log(this.dt);
-			this.fountains[i].update(this.dt,500.0);
+			this.fountains[i].update(this.dt,80);
 		}
 		this.draw();
 		requestAnimationFrame(this.update.bind(this));

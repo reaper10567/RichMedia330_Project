@@ -41,11 +41,11 @@ app.WaterDroplet = function(){
 		//console.log(dt);
 		if(this.y+this.radius >= this.canvasHeight){
 			//this.active=false;
-			if(Math.abs(this.yVel) > 5)
+			//if(Math.abs(this.yVel) > 5)
 				this.yVel *= -.3;
-			else{
-				this.active = false;
-			}
+			//else{
+			//	this.active = false;
+			//}
 		}
 		if(this.x-this.radius <= 0){
 			this.xVel*=-0.8;
@@ -54,7 +54,7 @@ app.WaterDroplet = function(){
 			this.xVel*=-0.8;
 		}
 		this.age++;
-		if(this.age > 500){
+		if(this.age > 600){
 			this.active = false;
 		}
 	};

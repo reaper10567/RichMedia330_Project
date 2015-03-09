@@ -35,7 +35,9 @@ app.Fountain = function(){
 			this.cooldown -= 60*this.rate*dt;
 		}*/
 		if(this.cooldown >= 1){
-			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
+			for(var i = 0; i < this.cooldown; i++){
+				this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
+			}
 			this.cooldown = 0;
 		}
 
