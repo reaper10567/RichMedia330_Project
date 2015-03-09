@@ -30,7 +30,9 @@ app.waterFountains = {
 		this.canvas.height = this.HEIGHT;
 		this.ctx = this.canvas.getContext('2d');
 		//console.log(this.ctx);
-		this.fountains.push(new app.Fountain(300,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
+		this.fountains.push(new app.Fountain(100,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
+		this.fountains.push(new app.Fountain(540,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
+		this.fountains.push(new app.Fountain(320,300,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
 		
 		this.audioElement = document.querySelector('audio');
 		
@@ -57,8 +59,8 @@ app.waterFountains = {
 			//ctx.clearRect(0,0,800,600);  
 			
 		for(var i = 0; i < this.fountains.length; i++){
-			console.log(this.dt);
-			this.fountains[i].update(this.dt,5);
+			//console.log(this.dt);
+			this.fountains[i].update(this.dt,500.0);
 		}
 		this.draw();
 		requestAnimationFrame(this.update.bind(this));
@@ -114,6 +116,14 @@ app.waterFountains = {
 		for(var i = 0; i < this.fountains.length; i++){
 			this.fountains[i].draw(this.ctx);
 		}
+		
+		var totalDroplets = 0;
+		for(var i = 0; i < this.fountains.length; i++){
+			totalDroplets+=this.fountains[i].droplets.length;
+		}
+		
+		this.ctx.font = "25px Georgia";
+		this.ctx.strokeText("Total Droplets: " + totalDroplets,10,30);
 	},
 	
 	createWebAudioContextWithAnalyserNode: function(audioElement) {

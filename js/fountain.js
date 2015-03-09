@@ -7,17 +7,19 @@ app.Fountain = function(){
 		this.width = width;
 		this.height = height;
 		this.droplets = [];
-		this.rate = 5;
+		this.rate = 10.0;
 		this.canvasHeight = canvasHeight;
 		this.canvasWidth = canvasWidth;
 		this.image = undefined;
 		this.utils = utils;
+		this.cooldown = 0;
 	};
 	
 	var f = Fountain.prototype;
 	
 	f.update = function(dt,rate){
 		this.rate = rate;
+		this.cooldown += dt*rate;
 		
 		for(var i = 0; i < this.droplets.length; i++){
 			this.droplets[i].update(dt);
@@ -27,8 +29,14 @@ app.Fountain = function(){
 			return waterDroplet.active;
 		});
 		
-		for(var i = 0; i < rate*dt; i++){
-			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-20,20),-20,this.canvasWidth,this.canvasHeight));
+		
+		/*while(this.cooldown > 60*this.rate*dt){
+			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
+			this.cooldown -= 60*this.rate*dt;
+		}*/
+		if(this.cooldown >= 1){
+			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
+			this.cooldown = 0;
 		}
 
 		
