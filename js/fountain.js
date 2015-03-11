@@ -19,7 +19,8 @@ app.Fountain = function(){
 	
 	f.update = function(dt,rate){
 		this.rate = rate;
-		this.cooldown += dt*rate;
+		//1/rate
+		this.cooldown += dt;
 		
 		for(var i = 0; i < this.droplets.length; i++){
 			this.droplets[i].update(dt);
@@ -30,16 +31,16 @@ app.Fountain = function(){
 		});
 		
 		
-		/*while(this.cooldown > 60*this.rate*dt){
+		while(this.cooldown >= 1/this.rate){
 			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
-			this.cooldown -= 60*this.rate*dt;
-		}*/
-		if(this.cooldown >= 1){
+			this.cooldown -= 1/this.rate;
+		}
+		/*if(this.cooldown >= 1){
 			for(var i = 0; i < this.cooldown; i++){
 				this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
 			}
 			this.cooldown = 0;
-		}
+		}*/
 
 		
 	};
