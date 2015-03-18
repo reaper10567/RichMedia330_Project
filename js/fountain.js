@@ -17,8 +17,77 @@ app.Fountain = function(){
 	
 	var f = Fountain.prototype;
 	
-	f.update = function(dt,rate){
-		this.rate = rate;
+	f.update = function(dt,data,num){
+		var newVelocity = 0;
+		this.rate=0;
+		for(var i = 0; i < data.length;i++)
+		{
+			if(i < num*(255.0/6))
+			{
+				if(data[i]>200)
+				{
+					this.rate +=2;
+					if(num == 1)
+					{
+						newVelocity += 58;
+					}
+					if(num==2)
+					{
+						newVelocity += 49;
+					}
+					if(num==3)
+					{
+						newVelocity += 70;
+					}
+					
+				}
+				if(data[i] > 50 && data[i] < 200)
+				{
+					this.rate++;
+					if(num == 1)
+					{
+						newVelocity += 36;
+					}
+					if(num==2)
+					{
+						newVelocity += 40
+					}
+					if(num==3)
+					{
+						newVelocity += 32
+					}
+					
+				}
+				if(data[i] <= 50)
+				{
+					this.rate--;
+					if(num == 1)
+					{
+						newVelocity -= 20;
+					}
+					if(num==2)
+					{
+						newVelocity -= 30;
+					}
+					if(num==3)
+					{
+						newVelocity -= 42;
+					}
+					
+				}
+			}
+		}
+		if(this.rate < 0)
+		{
+			this.rate = 0;
+		}
+		if(this.rate > 400){
+			this.rate=400;
+		}
+		if(newVelocity > 600)
+		{
+			newVelocity = 600;
+		}
 		//1/rate
 		this.cooldown += dt;
 		
@@ -32,7 +101,7 @@ app.Fountain = function(){
 		
 		
 		while(this.cooldown >= 1/this.rate){
-			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-500,this.canvasWidth,this.canvasHeight));
+			this.droplets.push(new app.WaterDroplet(this.x,this.y-this.height/2,3,app.utils.getRandom(-.4,.4),-newVelocity,this.canvasWidth,this.canvasHeight));
 			this.cooldown -= 1/this.rate;
 		}
 		/*if(this.cooldown >= 1){

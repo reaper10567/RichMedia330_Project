@@ -18,16 +18,11 @@ window.onload = function(){
 	
 	app.waterFountains.app = app;
 	app.waterFountains.utils = app.utils;
-	//app.Fountain.app = app;
-	//app.waterDroplet.app = app;
 	
-	app.queue = new createjs.LoadQueue(false);
-	app.queue.installPlugin(createjs.Sound);
-	//app.queue.on("complete",function(){
-		app.waterFountains.init();
-	//});
+
+	app.waterFountains.init();
+
 	
-	//app.queue.loadManifest([]);
 	
 	window.addEventListener("keydown",function(e){
 		app.keydown[e.keyCode] = true;

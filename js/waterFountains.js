@@ -17,8 +17,8 @@ app.waterFountains = {
 	ctx : undefined,
 	fountains:[],
 	fountainImage : undefined,
+	data : [],
 	dt: 1/60.0,
-	data: [],
 	
 	utils:undefined,
 	
@@ -31,8 +31,9 @@ app.waterFountains = {
 		this.ctx = this.canvas.getContext('2d');
 		//console.log(this.ctx);
 		this.fountains.push(new app.Fountain(100,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
-		this.fountains.push(new app.Fountain(540,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
 		this.fountains.push(new app.Fountain(320,300,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
+		this.fountains.push(new app.Fountain(540,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
+		
 		
 		this.audioElement = document.querySelector('audio');
 		
@@ -45,7 +46,7 @@ app.waterFountains = {
 	
 	update : function(){
 		
-		
+		requestAnimationFrame(this.update.bind(this));
 		this.data = new Uint8Array(this.NUM_SAMPLES/2); 
 			
 			// populate the array with the frequency data
@@ -56,63 +57,19 @@ app.waterFountains = {
 			//analyserNode.getByteTimeDomainData(data); // waveform data
 			
 			// DRAW!
-			//ctx.clearRect(0,0,800,600);  
+			//ctx.clearRect(0,0,800,600); 
 			
-		for(var i = 0; i < this.fountains.length; i++){
-			//console.log(this.dt);
-			this.fountains[i].update(this.dt,100);
-		}
+		this.fountains[0].update(this.dt,this.data,1);
+		this.fountains[1].update(this.dt,this.data,2);
+		this.fountains[2].update(this.dt,this.data,3);
 		this.draw();
-		requestAnimationFrame(this.update.bind(this));
+		
 	},
 	
 	draw : function(){
 		this.ctx.fillStyle = "white";
 		this.ctx.fillRect(0,0,640,480);
-		/*var barWidth = 4;
-		var barSpacing = 1;
-		var barHeight = 100;
-		var topSpacing = 50;
 		
-		// loop through the data and draw!
-		for(var i=0; i<this.data.length; i++) { 
-			this.ctx.fillStyle = 'rgba(0,255,0,0.6)'; 
-			
-			// the higher the amplitude of the sample (bin) the taller the bar
-			// remember we have to draw our bars left-to-right and top-down
-			//ctx.fillRect(i * (barWidth + barSpacing),topSpacing + 256-data[i],barWidth,barHeight); 
-			//ctx.fillRect(640 - i * (barWidth + barSpacing), topSpacing + 256-data[i] - 20, barWidth,barHeight);
-			
-			
-			this.ctx.beginPath();
-			this.ctx.arc(i * (barWidth + barSpacing),(topSpacing + 256-this.data[i])+50,5,0,2*Math.PI);
-			this.ctx.closePath();
-			this.ctx.fill();
-			
-			this.ctx.beginPath();
-			this.ctx.arc(640 - i * (barWidth + barSpacing),(topSpacing + 256-this.data[i])+50,5,0,2*Math.PI);
-			this.ctx.closePath();
-			this.ctx.fill();
-			
-			this.ctx.strokeStyle = "red";
-			
-			if(i+1 != this.data.length)
-			{
-				this.ctx.beginPath();
-				this.ctx.moveTo(i * (barWidth + barSpacing),(topSpacing + 256-this.data[i])+50);
-				this.ctx.lineTo((i+1) * (barWidth + barSpacing),(topSpacing + 256-this.data[i+1])+50);
-				this.ctx.stroke();
-			}
-			
-			this.ctx.strokeStyle="blue";
-			if(i+1 != this.data.length)
-			{
-				this.ctx.beginPath();
-				this.ctx.moveTo(640 - i * (barWidth + barSpacing),(topSpacing + 256-this.data[i])+50);
-				this.ctx.lineTo(640 - (i+1) * (barWidth + barSpacing),(topSpacing + 256-this.data[i+1])+50);
-				this.ctx.stroke();
-			}
-		}*/
 		for(var i = 0; i < this.fountains.length; i++){
 			this.fountains[i].draw(this.ctx);
 		}
