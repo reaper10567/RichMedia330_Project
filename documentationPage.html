@@ -5,12 +5,12 @@
 	<title>Tyler Gerber Project 1 "Music Fountains"</title>
 	<style>
 	#DesignDiscussion {
-		padding-left:2%;
-		padding-right:2%;
+		padding-left:.5%;
+		padding-right:.5%;
 		padding-bottom:2%;
 		padding-top:2%;
-        margin-left:20%;
-		margin-right:20%;
+        margin-left:12%;
+		margin-right:12%;
         margin-top:10px;
 		background-color:#7C73B2;
 		color:#261C68;
@@ -23,8 +23,8 @@
 		padding-right:2%;
 		padding-bottom:.005%;
 		padding-top:.005%;
-        margin-left:20%;
-		margin-right:20%;
+        margin-left:12%;
+		margin-right:12%;
 		text-align:center;
 		background-color:#544A96
 	}
@@ -37,24 +37,36 @@
 <body>
 	<h1>Tyler Gerber Project 1 "Music Fountains"</h1>
 	<div id="DesignDiscussion">
+		<h2>Link to project site</h2>
+		<a href="RichMedia330_project.html">Music fountains project</a>
 		<h2>Abstract</h2>
 		<p>My project will be, as the title implies, a Music Fountain. So essentially there will be multiple fountains that are
 		controlled by the music that is being played. The music will influence both the speed at which water is sprayed from the
 		individual fountains and the amount of water that is sprayed per second. The user will be able to change the color of the particles
-		that are sprayed from the fountains via sliders below the canvas that will control the R,G, and B values respectively. I will
-		also explore the option of having the user be able to click on the canvas in order to create an explosion of particles as well as 
-		potentially allowing the user to upload their own file for the player to play depending on how it might be implemented.</p>
+		that are sprayed from the fountains via sliders below the canvas that will control the R,G, and B values respectively. The user can
+		also enable either derpy faces or the internet exploder icon in the stead of the normal water droplets via radio buttons. There is
+		also a red-based audio visualization in the background from the audio visualizer in class in order to help fill in the empty space.</p>
+		<h2>Decisions Made</h2>
+		<p>In phase 1 I decided to do music fountains and pretty much everything that is in the abstract aside from the last two sentences.
+		In phase 2, I decided against the uploading a file due to looking into the file IO stuff for JS and it didn't look like something I
+		would have had the time to do, especially after having to spend a weekend in the hospital. I also decided against the clicking to create
+		particles idea as the current backend that I had created would not support such a feature easily. In phase 3, I decided to add the radio buttons
+		for the derp face and internet exploder mostly due to some jokes that were throw around both in class as well as with some of my friends
+		from the class (namely Joe). The red-based circular visualization was added in the end in order to fill some of the blank space since
+		the fountains were on the small side and there ended up being a lot of blank space when the music was quiet. </p>
 		<h2>Current Progress</h2>
-		<p>Currently, I have the full back-end finished for the project. All of the java script classes exist and are functioning
-		properly, including the hook-up between the music and the water particle generation. The algorithms for which may change
-		before the final version is finished.</p>
+		<p>Currently the project is done. The only remaining issue is the inconsistent frame-rate due to the rather heavy back-end that I developed
+		since it has to parse the data many times. Here are some images of it working.
+		<br> <img src="media/firstImage.png"><img src="media/secondImage.png"><img src="media/thirdImage.png"><img src="media/fourthImage.png"></p>
 		<h2>Inspirations</h2>
 		<p>There were two main inspirations for this project. The first was the audio visualizer in class exercise that we did
 		a couple of weeks ago (as of writing this). The second source of my inspiration is real-life music fountains where
 		the fountains are programmed to fluctuate how much water they are spraying depending on the music that is playing.
 		Examples of these fountains can be found all over the internet. For a more detailed description of how they work,
 		you can visit <a href="http://en.wikipedia.org/wiki/Musical_fountain">This Wikipedia Page</a>.</p>
-		<h2>Link to project site</h2>
-		<a href="RichMedia330_project.html">Music fountains project</a>
+		<h2>Acknowledgements</h2>
+		<p>DerpyDerp is the image I made for SG1, internet exploder picture from https://mentalbiscuits.wordpress.com/tag/internet-exploder/,
+		base fountain image found from DragoArt.com, audio from the Homestuck Vol.9 album that i purchased and own and from the original audio
+		visualizer made in class</p>
 	</div>
 </body>

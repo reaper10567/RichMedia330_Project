@@ -6,10 +6,12 @@ app.waterFountains = {
 	WIDTH : 640,
 	HEIGHT : 480,
 	NUM_SAMPLES : 256,
+	//audio from the original audio visualiser (my base)
 	SOUND_1 :'media/New Adventure Theme.mp3',
 	SOUND_2 :'media/Peanuts Theme.mp3',
 	SOUND_3 :'media/The Picard Song.mp3',
-	SOUND_4 :"media/Homestuck - Homestuck Vol. 9 - 08 Pumpkin Party in Sea Hitler's Water Apocalypse.mp3",
+	//from the Homestuck Vol.9 album that i purchased and own
+	SOUND_4 :"media/Homestuck - Homestuck Vol. 9 - 17 Minihoof's Adventure.mp3",
 	audioElement: undefined,
 	analyserNode: undefined,
 	
@@ -52,13 +54,10 @@ app.waterFountains = {
 			// populate the array with the frequency data
 			// notice these arrays can be passed "by reference" 
 		this.analyserNode.getByteFrequencyData(this.data);
-		
-			// OR
-			//analyserNode.getByteTimeDomainData(data); // waveform data
 			
-			// DRAW!
-			//ctx.clearRect(0,0,800,600); 
+
 			
+		//update all of the fountains then draw!
 		this.fountains[0].update(this.dt,this.data,1);
 		this.fountains[1].update(this.dt,this.data,2);
 		this.fountains[2].update(this.dt,this.data,3);
@@ -67,20 +66,38 @@ app.waterFountains = {
 	},
 	
 	draw : function(){
-		this.ctx.fillStyle = "white";
+		this.ctx.fillStyle = "black";
 		this.ctx.fillRect(0,0,640,480);
-		
+		//draw the cool circles
+		for(var i=0; i < this.data.length; i++){
+			var percent = this.data[i]/255;
+			var maxRadius = 200;
+			var circleRadius = percent*maxRadius;
+			
+			this.ctx.beginPath();
+			this.ctx.fillStyle = this.makeColor(255,111,111,.34-percent/3.0);
+			this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius,0,2*Math.PI,false);
+			this.ctx.fill();
+			this.ctx.closePath();
+			
+			this.ctx.beginPath();
+			this.ctx.fillStyle = this.makeColor(255,0,0,.10-percent/10.0);
+			this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius*1.5,0,2*Math.PI,false);
+			this.ctx.fill();
+			this.ctx.closePath();
+			
+			this.ctx.save();
+			this.ctx.beginPath();
+			this.ctx.fillStyle = this.makeColor(200,200,0,.5-percent/5.0);
+			this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius*.5,0,2*Math.PI,false);
+			this.ctx.fill();
+			this.ctx.closePath();
+			this.ctx.restore();
+		}
+		//draw all of the fountains (which call their droplets)
 		for(var i = 0; i < this.fountains.length; i++){
 			this.fountains[i].draw(this.ctx);
 		}
-		
-		var totalDroplets = 0;
-		for(var i = 0; i < this.fountains.length; i++){
-			totalDroplets+=this.fountains[i].droplets.length;
-		}
-		
-		this.ctx.font = "25px Georgia";
-		this.ctx.strokeText("Total Droplets: " + totalDroplets,10,30);
 	},
 	
 	createWebAudioContextWithAnalyserNode: function(audioElement) {
@@ -124,6 +141,30 @@ app.waterFountains = {
 		document.querySelector("#fsButton").onclick = function(){
 			app.waterFountains.requestFullscreen(app.waterFountains.canvas);
 		};
+		document.getElementById("red").onchange = function(e){	
+			app.WaterDroplet.r = e.target.value;
+			app.WaterDroplet.changeColor();
+		};
+		document.getElementById("green").onchange = function(e){
+			app.WaterDroplet.g = e.target.value;
+			app.WaterDroplet.changeColor();
+		};
+		document.getElementById("blue").onchange = function(e){
+			app.WaterDroplet.b = e.target.value;
+			app.WaterDroplet.changeColor();
+		};
+		document.getElementById("derp").onchange = function(e){
+			app.WaterDroplet.derp = e.target.checked;
+			app.WaterDroplet.internetExploder = false;
+		};
+		document.getElementById("internetExploder").onchange = function(e){
+			app.WaterDroplet.internetExploder = e.target.checked;
+			app.WaterDroplet.derp = false;
+		};
+		document.getElementById("none").onchange = function(e){
+			app.WaterDroplet.derp = false;
+			app.WaterDroplet.internetExploder = false;
+		}
 	},
 	
 	playStream: function(audioElement,path){

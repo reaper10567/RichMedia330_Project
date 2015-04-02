@@ -29,12 +29,26 @@
 		<audio controls loop></audio>
 		<label>Track: 
 			<select id="trackSelect" >
-				<option value="media/Homestuck - Homestuck Vol. 9 - 08 Pumpkin Party in Sea Hitler's Water Apocalypse.mp3">Pumpkin Party in Sea Hitler's Water Apocalypse</option>
+				<option value="media/Homestuck - Homestuck Vol. 9 - 17 Minihoof's Adventure.mp3">Minihoof's Adventure</option>
 				<option value="media/New Adventure Theme.mp3">New Adventure Theme</option>
 				<option value="media/Peanuts Theme.mp3">Peanuts Theme</option>
 				<option value="media/The Picard Song.mp3">The Picard Song</option>
 			</select>
 		</label>
+		<br>
+		<label for="red">Red</label>
+		<input id="red" type ="range" min ="0.0" max="255.0" step ="1" value ="0"/>
+		<label for="green">Green</label>
+		<input id="green" type ="range" min ="0.0" max="255.0" step ="1" value ="0"/>
+		<label for="blue">Blue</label>
+		<input id="blue" type ="range" min ="0.0" max="255.0" step ="1" value ="255"/>
+		<br>
+		<label for="derp">Derp?</label>
+		<input id="derp" type="radio" name="effect" value="derp">
+		<label for="internetExploder">Internet Exploder?</label> 
+		<input id="internetExploder" type="radio" name="effect" value="internetExploder">
+		<label for="none">None</label>
+		<input id="none" type="radio" name = "effect" value="none">
 		<button id="fsButton">Go Full Screen</button><br>
 		<p id="status">???</p>
 	</div>
