@@ -1,6 +1,7 @@
 "use strict";
 
 var app = app || {};
+var showCredits = false;
 
 app.waterFountains = {
 	WIDTH : 640,
@@ -35,7 +36,7 @@ app.waterFountains = {
 		this.fountains.push(new app.Fountain(100,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
 		this.fountains.push(new app.Fountain(320,300,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
 		this.fountains.push(new app.Fountain(540,400,40,90,this.WIDTH,this.HEIGHT,this.fountainImage,this.utils));
-		
+		showCredits = false;
 		
 		this.audioElement = document.querySelector('audio');
 		
@@ -49,18 +50,21 @@ app.waterFountains = {
 	update : function(){
 		
 		requestAnimationFrame(this.update.bind(this));
-		this.data = new Uint8Array(this.NUM_SAMPLES/2); 
-			
-			// populate the array with the frequency data
-			// notice these arrays can be passed "by reference" 
-		this.analyserNode.getByteFrequencyData(this.data);
-			
-
-			
-		//update all of the fountains then draw!
-		this.fountains[0].update(this.dt,this.data,1);
-		this.fountains[1].update(this.dt,this.data,2);
-		this.fountains[2].update(this.dt,this.data,3);
+		//console.log(this.credits);
+		if(!showCredits){
+			this.data = new Uint8Array(this.NUM_SAMPLES/2); 
+				
+				// populate the array with the frequency data
+				// notice these arrays can be passed "by reference" 
+			this.analyserNode.getByteFrequencyData(this.data);
+				
+	
+				
+			//update all of the fountains then draw!
+			this.fountains[0].update(this.dt,this.data,1);
+			this.fountains[1].update(this.dt,this.data,2);
+			this.fountains[2].update(this.dt,this.data,3);
+		}
 		this.draw();
 		
 	},
@@ -68,35 +72,44 @@ app.waterFountains = {
 	draw : function(){
 		this.ctx.fillStyle = "black";
 		this.ctx.fillRect(0,0,640,480);
-		//draw the cool circles
-		for(var i=0; i < this.data.length; i++){
-			var percent = this.data[i]/255;
-			var maxRadius = 200;
-			var circleRadius = percent*maxRadius;
-			
-			this.ctx.beginPath();
-			this.ctx.fillStyle = this.makeColor(255,111,111,.34-percent/3.0);
-			this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius,0,2*Math.PI,false);
-			this.ctx.fill();
-			this.ctx.closePath();
-			
-			this.ctx.beginPath();
-			this.ctx.fillStyle = this.makeColor(255,0,0,.10-percent/10.0);
-			this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius*1.5,0,2*Math.PI,false);
-			this.ctx.fill();
-			this.ctx.closePath();
-			
-			this.ctx.save();
-			this.ctx.beginPath();
-			this.ctx.fillStyle = this.makeColor(200,200,0,.5-percent/5.0);
-			this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius*.5,0,2*Math.PI,false);
-			this.ctx.fill();
-			this.ctx.closePath();
-			this.ctx.restore();
-		}
+		//console.log(this.credits);
+		if(!showCredits){
+			//draw the cool circles
+			for(var i=0; i < this.data.length; i++){
+				var percent = this.data[i]/255;
+				var maxRadius = 200;
+				var circleRadius = percent*maxRadius;
+				
+				this.ctx.beginPath();
+				this.ctx.fillStyle = this.makeColor(255,111,111,.34-percent/3.0);
+				this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius,0,2*Math.PI,false);
+				this.ctx.fill();
+				this.ctx.closePath();
+				
+				this.ctx.beginPath();
+				this.ctx.fillStyle = this.makeColor(255,0,0,.10-percent/10.0);
+				this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius*1.5,0,2*Math.PI,false);
+				this.ctx.fill();
+				this.ctx.closePath();
+				
+				this.ctx.save();
+				this.ctx.beginPath();
+				this.ctx.fillStyle = this.makeColor(200,200,0,.5-percent/5.0);
+				this.ctx.arc(this.canvas.width/2,this.canvas.height/2,circleRadius*.5,0,2*Math.PI,false);
+				this.ctx.fill();
+				this.ctx.closePath();
+				this.ctx.restore();
+			}
+		
 		//draw all of the fountains (which call their droplets)
-		for(var i = 0; i < this.fountains.length; i++){
-			this.fountains[i].draw(this.ctx);
+			for(var i = 0; i < this.fountains.length; i++){
+				this.fountains[i].draw(this.ctx);
+			}
+		}
+		else{
+			this.ctx.strokeStyle = "white";
+			this.ctx.font="30px Georgia";
+			this.ctx.strokeText("Created by: \n Tyler Gerber",120,250);
 		}
 	},
 	
@@ -156,15 +169,29 @@ app.waterFountains = {
 		document.getElementById("derp").onchange = function(e){
 			app.WaterDroplet.derp = e.target.checked;
 			app.WaterDroplet.internetExploder = false;
+			showCredits = false;
 		};
 		document.getElementById("internetExploder").onchange = function(e){
 			app.WaterDroplet.internetExploder = e.target.checked;
 			app.WaterDroplet.derp = false;
+			showCredits = false;
 		};
 		document.getElementById("none").onchange = function(e){
 			app.WaterDroplet.derp = false;
 			app.WaterDroplet.internetExploder = false;
-		}
+			showCredits = false;
+		};
+		document.getElementById("credits").onchange = function(e){
+			//console.log("Changing credits to: " + e.target.checked);
+			showCredits = e.target.checked;
+			app.WaterDroplet.derp = false;
+			app.WaterDroplet.internetExploder = false;
+			/*(if(this.showCredits){
+				this.audioElement.pause();
+			}else{
+				this.audioElement.play();
+			}*/
+		};
 	},
 	
 	playStream: function(audioElement,path){
